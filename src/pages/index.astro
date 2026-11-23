@@ -1,0 +1,21 @@
+---
+import PublicationCard from "../components/academic/PublicationCard.astro";
+import { getSortedPosts } from "../utils/content-utils";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { profile, publications, news } from "../data/academic";
+import { url } from "../utils/url-utils";
+---
+<MainGridLayout description={profile.tagline}>
+<div class="academic-home">
+<section class="card-base hero"><p class="eyebrow">RESEARCH · CURIOSITY · EVERYDAY MAGIC</p><h1>你好，我是<span>{profile.name}</span></h1><h2>{profile.tagline}</h2><p class="intro">{profile.introduction}</p><div class="actions"><a href={url('/publications/')} class="primary">探索研究</a><a href={`mailto:${profile.email}`}>联系我</a></div></section>
+<section class="card-base section"><div class="section-title"><h2>研究的方向</h2><span>RESEARCH INTERESTS</span></div><div class="interests">{profile.interests.map((item,i)=><div><span class="symbol">{['✧','◇','✿'][i]}</span><h3>{item}</h3><p>{["探索靠近数据源的计算与协同。","研究更高效的大模型推理方法。","关注物联网设备与智能系统。"][i]}</p></div>)}</div></section>
+<section class="card-base section"><div class="section-title"><h2>研究成果</h2><a href={url('/publications/')}>全部论文</a></div>{[...publications].sort((a,b)=>b.date.localeCompare(a.date)).map(p=><PublicationCard paper={p}/>)}</section>
+<section class="card-base section"><div class="section-title"><h2>最近的足迹</h2><span>NEWS & NOTES</span></div>{news.length ? news.map(n=><p>{n.date} · {n.text}</p>):<p class="muted">学术动态待补充，新的探索即将从这里开始。</p>}<a class="notebook" href={url('/blog/')}><span>研究之外，也有日常的灵感。</span><strong>翻开笔记</strong></a></section>
+<section class="card-base section"><h2>最新笔记</h2><p class="notice">记录科研中的探索、边缘计算知识与日常片段。</p>{(await getSortedPosts()).slice(0,3).map(p=><p class="intro"><a href={url(`/posts/${p.slug}/`)}>{p.data.title}</a></p>)}</section></div>
+<style>
+.academic-home{--accent:#7466ad;--pink:#e7a9bd;color:var(--text-90)}.hero,.section{padding:2rem;margin-bottom:1rem}.eyebrow{font-size:.75rem;letter-spacing:.17em;color:var(--primary);font-weight:700}h1{font-size:clamp(1.9rem,4vw,2.75rem);font-weight:750;margin:1.4rem 0 .7rem;line-height:1.4}h1 span{color:var(--primary);display:block}h2{font-size:1.3rem;font-weight:650}.intro{line-height:1.9;color:var(--text-75);margin:1.2rem 0;max-width:38rem}.actions{display:flex;gap:.8rem;flex-wrap:wrap;margin:1.8rem 0}.actions a{padding:.7rem 1.3rem;border-radius:.7rem;background:var(--btn-regular-bg);font-weight:600}.actions .primary{background:#7466ad;color:white}.notice{font-size:.8rem;color:var(--text-50)}.section-title{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.4rem}.section-title span{font-size:.7rem;letter-spacing:.12em;color:var(--text-50)}.section-title a{font-size:.85rem;color:var(--primary)}.interests{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.interests>div{padding:1rem;border-radius:.7rem;background:var(--btn-regular-bg)}.symbol{font-size:1.6rem;color:var(--primary)}h3{font-weight:650;margin:.5rem 0}.interests p{font-size:.85rem;color:var(--text-75);line-height:1.7}.empty{text-align:center;padding:1.5rem;border:1px dashed var(--primary);border-radius:.8rem}.empty>span{font-size:2rem;color:var(--pink)}.empty p{margin:.5rem}.empty small,.muted{color:var(--text-50);line-height:1.8}.notebook{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:1.5rem;padding:1rem;border-radius:.7rem;background:var(--btn-regular-bg);font-size:.9rem}.notebook strong{color:var(--primary)}a:focus-visible{outline:2px solid var(--primary);outline-offset:4px}@media(max-width:640px){.hero,.section{padding:1.4rem}.interests{grid-template-columns:1fr}.section-title>span{display:none}}
+</style>
+
+
+
+

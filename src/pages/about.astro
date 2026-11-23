@@ -1,0 +1,25 @@
+---
+import MainGridLayout from '../layouts/MainGridLayout.astro';
+import {profile, education} from '../data/academic';
+---
+<MainGridLayout title="关于 ZhangYida">
+  <section class="card-base p-6 md:p-8 text-75 leading-8" data-pagefind-body>
+    <h1 class="text-3xl font-bold text-90 mb-6">关于 {profile.name}</h1>
+    <p>{profile.role} · {profile.institution}</p>
+    <p class="my-5">{profile.introduction}</p>
+    <h2 class="text-xl font-bold text-90 mt-8 mb-4">教育经历</h2>
+    <ol class="education">
+      {education.map(item => <li>
+        <p class="period">{item.period}</p>
+        <h3 class="font-bold text-90">{item.institution} · {item.degree}</h3>
+        <p>{item.program}</p>
+      </li>)}
+    </ol>
+    <h2 class="text-xl font-bold text-90 mt-8">联系与交流</h2>
+    <p>欢迎讨论学术问题与合作想法。</p>
+    <a class="text-[var(--primary)] break-all" href={`mailto:${profile.email}`}>{profile.email}</a>
+  </section>
+</MainGridLayout>
+<style>
+.education{display:grid;gap:1.25rem;list-style:none;padding:0}.education li{border-left:3px solid var(--primary);padding:.25rem 0 .25rem 1.25rem}.period{font-size:.9rem;color:var(--primary)}
+</style>

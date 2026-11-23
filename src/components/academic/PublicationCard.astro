@@ -1,0 +1,21 @@
+---
+import { url } from '../../utils/url-utils';
+import type { Publication } from '../../data/academic';
+const {paper:p}=Astro.props as {paper:Publication};
+---
+<article class="paper" data-paper data-selected={String(p.selected)}>
+<p class="meta">{p.year} · {p.venue} · {{preprint:'预印本',accepted:'已录用',published:'已发表'}[p.status]}</p>
+<h2>{p.url ? <a href={p.url}>{p.title}</a> : p.title}</h2><p class="authors">{p.authors.map((a,i)=><><span class:list={{self:a==='Yida Zhang'||a==='张易达'}}>{a}</span>{i === p.authors.length-1 ? '' : ', '}</>)}</p>
+<p>{p.summary}</p><div class="links">{p.url&&<a href={p.url}>{p.linkLabel || (p.venue === 'arXiv' ? 'arXiv' : '论文页面')}</a>}{p.pdf&&<a href={p.pdf}>PDF</a>}{p.code&&<a href={p.code}>代码</a>}{p.project&&<a href={p.project}>项目主页</a>}</div>
+{!p.url&&!p.pdf&&<p class="availability">本站仅展示论文信息，未提供全文下载。</p>}
+<details><summary>摘要概述</summary><p>{p.abstract}</p></details>
+<details><summary>BibTeX 引用</summary><pre>{p.bibtex}</pre><button type="button" data-copy>复制 BibTeX</button><span role="status" aria-live="polite" data-copy-status></span></details>
+{p.photos?.length&&<details><summary>会议现场</summary>{p.photos.map(photo=><figure><img src={url(photo.src)} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async"/><figcaption>{photo.caption}</figcaption></figure>)}</details>}
+</article>
+<style>.availability,figcaption{font-size:.85rem;color:var(--text-50)}figure{margin:.5rem 0 1rem}figure img{width:100%;height:auto;border-radius:.7rem}figcaption{margin-top:.5rem}.paper{padding:1.5rem 0;border-bottom:1px solid var(--line-divider);color:var(--text-75);line-height:1.8;overflow-wrap:anywhere}.meta{font-size:.85rem;color:var(--primary)}h2{font-size:1.15rem;font-weight:700;color:var(--text-90);line-height:1.6;margin:.5rem 0}.authors{font-size:.9rem;margin-bottom:.7rem}.self{font-weight:700;color:var(--text-90)}.links{display:flex;gap:1rem;flex-wrap:wrap;margin:.8rem 0}.links a,button{color:var(--primary);background:var(--btn-regular-bg);padding:.3rem .8rem;border-radius:.4rem}summary{cursor:pointer;color:var(--primary);padding:.4rem 0}pre{white-space:pre-wrap;font-size:.8rem;padding:1rem;background:var(--btn-regular-bg);border-radius:.5rem}button{margin:.6rem .6rem .6rem 0}a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--primary);outline-offset:3px}</style>
+<script>
+// Delegation survives Swup page replacement without duplicate listeners.
+document.addEventListener('click',async(event)=>{const target=event.target;if(!(target instanceof Element))return;const button=target.closest<HTMLButtonElement>('[data-copy]');if(!button)return;const root=button.closest('details');const text=root?.querySelector('pre')?.textContent;const status=root?.querySelector('[data-copy-status]');if(!text||!status)return;try{await navigator.clipboard.writeText(text);status.textContent='已复制';}catch{status.textContent='复制失败，请选中上方引用手动复制。';}});
+</script>
+
+

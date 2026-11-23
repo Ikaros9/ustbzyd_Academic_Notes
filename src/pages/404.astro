@@ -1,0 +1,5 @@
+---
+import MainGridLayout from '../layouts/MainGridLayout.astro';
+import {url} from '../utils/url-utils';
+---
+<MainGridLayout title="页面未找到"><section class="card-base p-8 text-75"><p class="text-[var(--primary)]">404</p><h1 class="text-3xl font-bold text-90 my-5">这页手札还没有写下</h1><p>地址可能已变更，请从导航继续浏览。</p><a class="btn-regular inline-block px-5 py-3 rounded-lg mt-6" href={url('/')}>返回首页</a></section></MainGridLayout>

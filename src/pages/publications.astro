@@ -1,0 +1,11 @@
+---
+import MainGridLayout from '../layouts/MainGridLayout.astro';
+import PublicationCard from '../components/academic/PublicationCard.astro';
+import {publications} from '../data/academic';
+const papers=[...publications].sort((a,b)=>b.date.localeCompare(a.date));
+---
+<MainGridLayout title="论文"><section class="card-base p-6 md:p-8" data-pagefind-body><h1 class="text-3xl font-bold text-90 mb-4">研究成果</h1><p class="text-75 mb-4">边缘计算、大模型推理加速与 IoT 相关研究，包括会议论文与预印本。</p><div class="flex gap-3" role="group" aria-label="论文筛选"><button class="btn-regular rounded-lg px-4 py-2" data-filter="all" aria-pressed="true">全部</button><button class="btn-regular rounded-lg px-4 py-2" data-filter="selected" aria-pressed="false">代表作</button></div><p class="text-50 mt-3" data-filter-status role="status">共 {papers.length} 篇</p>{papers.map(p=><PublicationCard paper={p}/>)}<p class="text-75 py-8" data-empty hidden={papers.length>0}>暂无符合条件的论文。</p></section></MainGridLayout>
+<style>button[aria-pressed="true"]{outline:2px solid var(--primary);outline-offset:2px}[hidden]{display:none!important}</style>
+<script>
+document.addEventListener('click',e=>{const el=e.target;if(!(el instanceof Element))return;const b=el.closest<HTMLButtonElement>('[data-filter]');if(!b)return;const scope=b.closest('section');if(!scope)return;let count=0;scope.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));scope.querySelectorAll<HTMLElement>('[data-paper]').forEach(p=>{p.hidden=b.dataset.filter==='selected'&&p.dataset.selected!=='true';if(!p.hidden)count++});const status=scope.querySelector('[data-filter-status]');if(status)status.textContent=`共 ${count} 篇`;const empty=scope.querySelector<HTMLElement>('[data-empty]');if(empty)empty.hidden=count>0;});
+</script>

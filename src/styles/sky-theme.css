@@ -1,0 +1,15 @@
+/* Coordinated sky, feather and rose backgrounds. Keep text cards opaque. */
+body {background-image:radial-gradient(ellipse at 8% 45%,rgba(232,186,211,.35),transparent 42%),radial-gradient(ellipse at 95% 75%,rgba(172,194,230,.32),transparent 45%),linear-gradient(145deg,#f5f1fb,#eef4fb 55%,#fbf0f5);background-attachment:fixed;}
+body::before {content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(246,244,252,.88),rgba(245,241,250,.94)),url('/ustbzyd_Academic_Notes/images/ikaros-sky-banner.webp');background-position:center;background-size:cover;}
+#navbar>.card-base {background:linear-gradient(110deg,rgba(255,248,252,.94),rgba(240,245,255,.94)),url('/ustbzyd_Academic_Notes/images/ikaros-sky-banner.webp') center 35%/cover;border:1px solid rgba(194,175,219,.28);box-shadow:0 5px 25px rgba(111,99,155,.08);backdrop-filter:blur(14px);}
+#navbar>.absolute {background:transparent;}
+:root.dark body {background-image:linear-gradient(145deg,#171622,#1a202e 55%,#251c2c);}
+:root.dark body::before {background-image:linear-gradient(rgba(20,20,34,.92),rgba(21,21,34,.96)),url('/ustbzyd_Academic_Notes/images/ikaros-sky-banner.webp');}
+:root.dark #navbar>.card-base {background:linear-gradient(110deg,rgba(35,29,48,.96),rgba(27,35,49,.96)),url('/ustbzyd_Academic_Notes/images/ikaros-sky-banner.webp') center/cover;border-color:rgba(186,169,215,.15);}
+/* Explicit text tokens used by academic components in both themes. */
+:root {--text-90:#292738;--text-75:#565269;--text-50:#78718a;}
+:root.dark {--text-90:#eeeaf6;--text-75:#cdc5dc;--text-50:#a89dbb;}
+@media(max-width:768px){body{background-attachment:scroll}#navbar>.card-base{backdrop-filter:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
